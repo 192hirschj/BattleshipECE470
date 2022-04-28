@@ -27,7 +27,7 @@ class Cserverops(object):
             for line in fp:
                 line = line.strip()
                 values = line.split()
-                user = Cuser(values[0],values[1])
+                user = Cuser(values[0],values[1], values[2])
                 self._users[values[0]] = user
             
     def _doLogin(self, req: Cmessage) -> Cmessage:
@@ -60,9 +60,11 @@ class Cserverops(object):
     def _docreateAccount(self, request: Cmessage) -> Cmessage:
         userName = request.getParam('userName')
         password = request.getParam('password')
+        balance = '0.00'
+        balance = float(balance)
         fopen = open('users.txt', 'a')
         if userName not in self._users:
-            fopen.write(userName + ' ' + password + '\n')
+            fopen.write(userName + ' ' + password + ' ' + balance + '\n')
             fopen.close()
             serverResponse = Cmessage()
             serverResponse.setType('GOOD')
@@ -77,30 +79,26 @@ class Cserverops(object):
 
     def _doSearch(self, req: Cmessage) -> Cmessage:
         resp = Cmessage()
-        cid = req.getParam('cid')
-        if cid in self._courses:
-            c = self._courses[cid]
-            resp.setType('DATA')
-            resp.addParam('cid', c.cid)
-            resp.addParam('name', c.name)
-            resp.addParam('credits', c.credits)
+        user = req.getParam('user')
+        if user in self._users:
+            u = self._users[user]
+            resp.setType('GOOD')
+            resp.addParam('message', 'The user was found')
         else:
             resp.setType('ERRO')
-            resp.addParam('message', 'course not found')
+            resp.addParam('message', 'The user was not found')
         return resp
 
     def _doShowBalance(self, request: Cmessage) -> Cmessage:
         yourUserName = request.getParam('userName')
+        response = Cmessage()
         if yourUserName in self._users:
-            response = Cmessage()
             response.setType('DATA')
             response.addParam('balance', self._users[yourUserName].getBalance())
-            return response
         else:
-            response = Cmessage()
             response.setType('ERRO')
-            response.addParam('message', 'User was not found in the server')
-            return response
+            response.addParam('message', 'User was not found')
+        return response
                         
     def _process(self, req: Cmessage) -> Cmessage:
         m = self._route[req.getType()]

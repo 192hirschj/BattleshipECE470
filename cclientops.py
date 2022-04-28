@@ -33,6 +33,7 @@ class Cclientops(object):
         resp = self._cproto.getMessage()
         if resp:
             print(resp.getParam('message'))
+            print()
             if resp.getType() == 'GOOD':
                 self._login = True
                 self._curruser = username
@@ -86,6 +87,7 @@ class Cclientops(object):
         self._cproto.putMessage(req)
         resp = self._cproto.getMessage()
         print(resp.getParam('message'))
+        print()
         if resp.getType() == 'GOOD':
             return recipient
         else:
@@ -94,13 +96,12 @@ class Cclientops(object):
     def _doShowBalance(self):
         request = Cmessage()
         request.setType('BALA')
-        yourUserName = input('Type in your username:')
-        request.addParam('userName', yourUserName)
+        request.addParam('userName', self._curruser)
         self._cproto.putMessage(request)
         response = self._cproto.getMessage()
         if response:
             if response.getType() == 'DATA':
-                print(response.getParam('balance'))
+                print('Your current balance is {}\n'.format(response.getParam('balance')))
             else:
                 print(response.getParam('message'))
     
@@ -112,7 +113,7 @@ class Cclientops(object):
         self._done = True
 
     def _doMainMenuhelp(self):
-        print('Create Game -- Create a game lobby and receive a game code')
+        print('\nCreate Game -- Create a game lobby and receive a game code')
         print('Join Game -- Join a game lobby by typing in a game code')
         print('Search for Player -- Search by username for another player')
         print('View Personal Stats -- Displays current stats for games played')
@@ -130,8 +131,9 @@ class Cclientops(object):
             m()
 
     def _doMainMenu(self):
-        menu = ['1. Create Game', '2. Join Game', '3. Search for Player', '4. View Personal Stats', '5. View Leaderboard', '97. Help', '98. Logout', '99. Exit']
-        choices = {'3.': self._doSearch, '97': self._doMainMenuhelp, '98': self._doLogout, '99': self._shutdown}
+        menu = ['1. Create Game', '2. Join Game', '3. Search for Player', '4. View Balance', '5. View Personal Stats', '6. View Leaderboard', 
+                '97. Help', '98. Logout', '99. Exit']
+        choices = {'3': self._doSearch, '4': self._doShowBalance, '97': self._doMainMenuhelp, '98': self._doLogout, '99': self._shutdown}
         print('\n'.join(menu))
         choice = input('> ')
         if choice in choices:

@@ -1,6 +1,6 @@
 class Cuser(object):
 
-    def __init__(self, u: str, p: str, bal: float):
+    def __init__(self, u: str, p: str, bal:float):
         self._username = u
         self._password = p
         self._balance = bal
