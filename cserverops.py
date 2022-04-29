@@ -60,11 +60,11 @@ class Cserverops(object):
     def _docreateAccount(self, request: Cmessage) -> Cmessage:
         userName = request.getParam('userName')
         password = request.getParam('password')
-        balance = '0.00'
+        balance = request.getParam('balance')
         balance = float(balance)
         fopen = open('users.txt', 'a')
         if userName not in self._users:
-            fopen.write(userName + ' ' + password + ' ' + balance + '\n')
+            fopen.write(userName + ' ' + password + ' ' + str(balance) + '\n')
             fopen.close()
             serverResponse = Cmessage()
             serverResponse.setType('GOOD')

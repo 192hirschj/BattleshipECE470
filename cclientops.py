@@ -54,11 +54,13 @@ class Cclientops(object):
         print('Create Account')
         username = input('Type your username: ')
         password = input('Type your password: ')
+        balance = '0.00'
         request = Cmessage()
         self._connect()
         request.setType('CREA')
         request.addParam('userName', username)
         request.addParam('password', password)
+        request.addParam('balance', balance)
         self._cproto.putMessage(request)
         response = self._cproto.getMessage()
         if response.getType() == 'GOOD':
