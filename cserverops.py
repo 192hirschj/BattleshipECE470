@@ -15,7 +15,8 @@ class Cserverops(object):
                        'LOUT': self._doLogout,
                        'SRCH': self._doSearch,
                        'CREA': self._docreateAccount,
-                       'BALA': self._doShowBalance}
+                       'BALA': self._doShowBalance,
+                       'PLAY': self._playthegame}
         self._debug = True
         
     def _debugPrint(self, m: str):
@@ -99,6 +100,9 @@ class Cserverops(object):
             response.setType('ERRO')
             response.addParam('message', 'User was not found')
         return response
+
+    def _playthegame(self, request: Cmessage) -> Cmessage:
+        print()
                         
     def _process(self, req: Cmessage) -> Cmessage:
         m = self._route[req.getType()]

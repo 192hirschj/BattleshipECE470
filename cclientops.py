@@ -107,6 +107,11 @@ class Cclientops(object):
             else:
                 print(response.getParam('message'))
     
+    def _playthegame(self):
+        request = Cmessage()
+        request.setType('PLAY')
+        
+
     def _shutdown(self):
         if self._login:
             self._doLogout()

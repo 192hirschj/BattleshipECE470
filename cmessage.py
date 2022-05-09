@@ -4,7 +4,7 @@ class Cmessage(object):
     # Constance
     MCMDS = Enum('MCMDS', {'LGIN': 'LGIN', 'LOUT': 'LOUT','SRCH': 'SRCH',
                            'DATA': 'DATA', 'GOOD': 'GOOD', 'ERRO': 'ERRO', 
-                           'CREA':'CREA', 'BALA':'BALA'})
+                           'CREA':'CREA', 'BALA':'BALA', 'PLAY': 'PLAY'})
 
     PJOIN = '&'
     VJOIN = '{}={}'
