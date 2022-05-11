@@ -1,3 +1,0 @@
-user1 pass1 50.00
-user2 pass2 22.00
-user3 pass3 0.0
